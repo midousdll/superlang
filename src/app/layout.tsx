@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SyperLang",
+  title: "SuperLang",
   description: "Read copyright-free books side-by-side with translation",
 };
 

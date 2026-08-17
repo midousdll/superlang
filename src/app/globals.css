@@ -11,9 +11,18 @@
   --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  
   --color-primary: #1A2A4F;
   --color-secondary: #FFDBB6;
   --color-accent: #F7A5A5;
+
+  --color-light-text: #ffffff;
+  --color-dark-text: #1A2A4F;
+
+  --color-gray1: #bababa;
+  --color-gray2: #999999;
+  --color-gray3: #797979;
+  --color-gray4: #5b5b5b;
 }
 
 /* dark theme */
