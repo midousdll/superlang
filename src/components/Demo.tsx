@@ -13,7 +13,7 @@ const DEMO_SENTENCE = [
   { text: ".", translation: ".", type: "Punctuation", known: true },
 ];
 
-export default function HowItWorks() {
+export default function Demo() {
   const [activeWordIdx, setActiveWordIdx] = useState<number | null>(1); // Default to 'short'
   const [savedWords, setSavedWords] = useState<number[]>([]);
 
@@ -25,29 +25,34 @@ export default function HowItWorks() {
   };
 
   return (
-    <section className="w-full py-24 bg-white dark:bg-black px-8">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+    <section id="demo" className="w-full py-20 bg-cream text-slate-dark border-t border-stone-200/80 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-16">
         
-        {/* Left Side: Text Explanation */}
-        <div className="flex-1 space-y-6">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            Click to Translate, <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-500 to-cyan-400">Test it yourself.</span>
+        {/* Left Side: Explanation */}
+        <div className="flex-1 space-y-4 text-left">
+          <span className="text-xs font-bold tracking-widest text-rust uppercase block">
+            ✦ Interactive Demo
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-serif text-slate-dark leading-tight">
+            Click to translate. <br />
+            <span className="italic text-rust">Test it yourself.</span>
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            Click a word and see the translation your self.
+          <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-md pt-1">
+            Tap or click any word in a story sentence below to reveal instant word meanings, parts of speech, and save them straight to your personal wordbook.
           </p>
         </div>
 
-        {/* Right Side: Interactive Demo Box */}
-        <div className="flex-1 w-full max-w-lg bg-gray-50 dark:bg-gray-900 rounded-3xl p-6 md:p-10 shadow-xl border border-gray-200 dark:border-gray-800 relative">
+        {/* Right Side: Interactive Card */}
+        <div className="flex-1 w-full max-w-lg bg-white rounded-xs p-6 sm:p-8 shadow-sm border border-stone-200/80 relative">
           
-          <div className="mb-8 flex justify-between items-center text-sm text-gray-500 border-b border-gray-200 dark:border-gray-800 pb-4">
-            <span className="font-semibold text-gray-700 dark:text-gray-300">Chapter 1: The Beginning</span>
-            <span>English</span>
+          {/* Card Header */}
+          <div className="mb-6 flex justify-between items-center text-[11px] font-mono text-stone-400 border-b border-stone-100 pb-3 uppercase tracking-wider">
+            <span>CHAPTER 01 / DEMO</span>
+            <span>ENGLISH → ARABIC</span>
           </div>
 
-          <div className="text-2xl md:text-3xl leading-loose font-medium text-gray-800 dark:text-gray-100 flex flex-wrap gap-2">
+          {/* Interactive Sentence */}
+          <div className="text-2xl sm:text-3xl font-serif leading-relaxed text-slate-dark flex flex-wrap gap-x-2 gap-y-1 py-4">
             {DEMO_SENTENCE.map((word, idx) => {
               const isActive = activeWordIdx === idx;
               const isSaved = savedWords.includes(idx);
@@ -57,12 +62,14 @@ export default function HowItWorks() {
                 <div key={idx} className="relative inline-block">
                   <button
                     onClick={() => !isPunctuation && setActiveWordIdx(isActive ? null : idx)}
-                    className={`transition-colors duration-200 rounded-md px-1 ${
-                      isPunctuation ? "cursor-default" : "hover:bg-indigo-100 dark:hover:bg-indigo-900/40 cursor-pointer"
+                    className={`transition-all rounded-xs px-1.5 py-0.5 ${
+                      isPunctuation
+                        ? "cursor-default"
+                        : "hover:bg-beige-card/50 cursor-pointer"
                     } ${
-                      isActive ? "bg-indigo-200 dark:bg-indigo-800 text-indigo-900 dark:text-white" : ""
+                      isActive ? "bg-beige-card text-slate-dark font-medium" : ""
                     } ${
-                      isSaved ? "border-b-2 border-green-500" : ""
+                      isSaved ? "border-b-2 border-rust" : ""
                     }`}
                   >
                     {word.text}
@@ -70,27 +77,31 @@ export default function HowItWorks() {
 
                   {/* Tooltip Popup */}
                   {isActive && !isPunctuation && (
-                    <div className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-3 w-48 bg-white dark:bg-black rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 p-4 animate-in fade-in zoom-in duration-200">
-                      {/* Tooltip triangle indicator */}
-                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-black rotate-45 border-b border-r border-gray-100 dark:border-gray-800"></div>
+                    <div className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-3 w-48 bg-white rounded-xs shadow-xl border border-stone-200 p-4">
+                      {/* Tooltip triangle */}
+                      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-b border-r border-stone-200"></div>
                       
-                      <div className="relative z-10 flex flex-col items-center text-center gap-2">
-                        <span className="text-2xl font-bold text-gray-900 dark:text-white" dir="rtl">{word.translation}</span>
-                        <span className="text-xs font-medium uppercase tracking-wider text-indigo-500">{word.type}</span>
+                      <div className="relative z-10 flex flex-col items-center text-center gap-1.5">
+                        <span className="text-xl font-serif font-bold text-slate-dark" dir="rtl">
+                          {word.translation}
+                        </span>
+                        <span className="text-[10px] font-mono tracking-wider uppercase text-rust">
+                          {word.type}
+                        </span>
                         
-                        <div className="w-full h-px bg-gray-100 dark:bg-gray-800 my-1"></div>
+                        <div className="w-full h-px bg-stone-100 my-1" />
                         
                         {isSaved ? (
-                          <div className="text-sm font-semibold text-green-500 flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                            Saved to Learning
+                          <div className="text-xs font-medium text-rust flex items-center gap-1">
+                            <span>✓</span>
+                            <span>Added to My Words</span>
                           </div>
                         ) : (
                           <button
                             onClick={() => handleSaveWord(idx)}
-                            className="w-full py-1.5 mt-1 rounded bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+                            className="w-full py-1.5 rounded-xs bg-slate-dark text-white text-xs font-medium hover:bg-black transition-all"
                           >
-                            + Add to Flashcards
+                            + Save Word
                           </button>
                         )}
                       </div>
@@ -101,12 +112,14 @@ export default function HowItWorks() {
             })}
           </div>
 
-          <div className="mt-10 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl flex items-center justify-between">
-            <span className="text-sm font-medium text-indigo-800 dark:text-indigo-300">Words tracked today:</span>
-            <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400">{savedWords.length} / 10</span>
+          {/* Card Footer Metric */}
+          <div className="mt-8 p-3 bg-cream rounded-xs border border-stone-200/60 flex items-center justify-between text-xs font-mono text-stone-600">
+            <span>WORDS SAVED TODAY:</span>
+            <span className="font-bold text-rust">{savedWords.length} / 10</span>
           </div>
 
         </div>
+
       </div>
     </section>
   );
