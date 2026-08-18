@@ -53,31 +53,23 @@ export default function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-5">
-          {/* Sign In Button */}
-          <Link
-            href="#"
-            className="text-dark-text text-sm font-semibold whitespace-nowrap transition-colors hover:text-accent"
-          >
-            Sign In
-          </Link>
-
-          {/* Get Started Button */}
-          <Link
-            href="#"
-            className="bg-accent text-white px-5 py-[0.55rem] rounded-lg text-sm font-semibold whitespace-nowrap transition-colors hover:bg-dark-text"
-          >
-            Get Started
-          </Link>
-
           {/* Language Button */}
           <button
-            className="flex items-center gap-1.5 border border-gray4 rounded-md px-3 py-2 text-sm font-medium text-dark-text transition-colors hover:bg-accent hover:text-white"
+            className="flex items-center gap-1 border border-gray4 rounded-md px-2 py-2 text-sm font-medium text-dark-text transition-colors hover:bg-accent hover:text-white"
             aria-label="Select Language"
           >
             <Globe className="w-4 h-4" />
             <span>EN</span>
             <ChevronDown className="w-4 h-4" />
           </button>
+
+          {/* Get Started Button */}
+          <Link
+            href="#"
+            className="bg-accent text-white px-5 py-[0.55rem] rounded-lg text-sm font-semibold whitespace-nowrap transition-colors hover:bg-dark-text"
+          >
+            Log In
+          </Link>
         </div>
         
         {/* Mobile Hamburger Button */}
@@ -130,21 +122,12 @@ export default function Navbar() {
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>
-
-              <Link
-                href="#"
-                onClick={() => setMenuOpen(false)}
-                className="w-full text-center border border-gray4 text-dark-text px-5 py-3 rounded-lg text-sm font-semibold transition-colors hover:bg-accent hover:text-white"
-              >
-                Sign In
-              </Link>
-
               <Link
                 href="#"
                 onClick={() => setMenuOpen(false)}
                 className="w-full bg-accent text-white px-5 py-3 rounded-lg text-sm font-semibold text-center transition-colors hover:bg-dark-text"
               >
-                Get Started
+                Log In
               </Link>
             </div>
           </div>
