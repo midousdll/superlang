@@ -34,7 +34,7 @@ export default function BookCard({ book }: { book: Book }) {
             {book.chapters} {book.chapters === 1 ? "chapter" : "chapters"}
           </span>
           <Link
-            href={`/library/${book.id}`}
+            href={`/reader/${book.id}`}
             className="font-mono text-xs font-bold text-rust uppercase tracking-wider hover:underline"
           >
             Read →

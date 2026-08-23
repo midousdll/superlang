@@ -20,7 +20,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-stone-200/80 bg-cream">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
         
-        {/* Logo */}
+        {/* Logo ================================================================================== */}
         <Link 
           href="/" 
           className="flex items-center gap-2 font-serif text-lg font-bold text-slate-dark tracking-tight"
@@ -29,7 +29,7 @@ export default function Navbar() {
           <span>Super<span className="italic font-normal">Lang</span></span>
         </Link>
         
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links ============================================================== */}
         <ul className="hidden md:flex items-center gap-2 list-none">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href;
@@ -50,7 +50,7 @@ export default function Navbar() {
           })}
         </ul>
 
-        {/* Desktop Actions */}
+        {/* Desktop Actions ======================================================================= */}
         <div className="hidden md:flex items-center gap-3">
           {/* Language Selector */}
           <button
@@ -71,7 +71,7 @@ export default function Navbar() {
           </Link>
         </div>
         
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Button =============================================================== */}
         <button
           className="flex md:hidden items-center justify-center text-slate-dark p-1"
           aria-label="Toggle Menu"

@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import MOCK_BOOKS from "@/data/books";
-import BookCard from "@/components/BookCard";
+import BookCard from "@/components/library/BookCard";
+import { Search } from "lucide-react";
 
 const FILTERS = ["All", "English", "French"];
 
@@ -24,24 +25,25 @@ export default function LibraryPage() {
   return (
     <div className="flex flex-col flex-1 w-full bg-cream text-slate-dark min-h-screen">
 
-      {/* Page Header */}
-      <div className="w-full bg-cream border-b border-stone-200/80 px-6 py-12">
+      {/* Header ================================================================================== */}
+      <div className="w-full bg-cream border-b border-amber-50 px-6 py-12">
         <div className="max-w-6xl mx-auto space-y-2">
           <span className="text-xs font-mono font-bold tracking-widest text-rust uppercase block">
             ✦ CATALOG
           </span>
           <h1 className="text-3xl sm:text-4xl font-serif text-slate-dark">
-            Story Library
+            The Library
           </h1>
-          <p className="mt-2 text-sm sm:text-base text-stone-600 leading-relaxed max-w-2xl">
-            Explore copyright-free classics in English and French. Click any word while you read to see its Arabic translation.
+          <p className="mt-2 text-sm sm:text-base text-stone-600 leading-relaxed max-w-4xl">
+            Explore copyright-free classics in English and French. Click any word while you read to see its translation.
           </p>
         </div>
       </div>
 
+      {/* Page Content ============================================================================ */}
       <div className="max-w-6xl mx-auto w-full px-6 py-10 flex flex-col gap-10">
 
-        {/* Featured Book Banner */}
+        {/* Featured Book Banner ============================================== */}
         {featuredBook && (
           <div className="relative w-full rounded-xs bg-white border border-stone-200/80 p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xs">
             <div className="flex flex-col gap-3 max-w-xl">
@@ -60,7 +62,7 @@ export default function LibraryPage() {
               </p>
             </div>
             <Link
-              href={`/library/${featuredBook.id}`}
+              href={`/reader/${featuredBook.id}`}
               className="shrink-0 inline-flex items-center justify-center h-10 px-6 rounded-xs bg-slate-dark text-cream font-mono text-xs uppercase tracking-wider hover:bg-black transition-all"
             >
               Start Reading
@@ -68,29 +70,22 @@ export default function LibraryPage() {
           </div>
         )}
 
-        {/* Search & Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between border-b border-stone-200/80 pb-6">
+        {/* Search & Filters ================================================== */}
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           {/* Search Bar */}
-          <div className="relative w-full sm:max-w-xs">
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+          <div className="flex flex-row w-full items-center px-4 sm:max-w-xs bg-white border border-stone-200/80 rounded-xs text-xs font-mono text-slate-dark placeholder-stone-400">
+            <Search className="w-4 h-4 left-3 text-stone-500" />
             <input
               type="text"
               placeholder="Search by title or author..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-stone-200/80 rounded-xs text-xs font-mono text-slate-dark placeholder-stone-400 focus:outline-none focus:border-slate-dark transition-all"
+              className="w-full pl-4 pr-4 py-2 focus:outline-none focus:border-slate-dark transition-all"
             />
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex gap-1 p-1 bg-stone-200/50 rounded-xs border border-stone-200/80">
+          <div className="flex gap-1 p-1  bg-white rounded-xs border border-stone-200/80">
             {FILTERS.map((f) => (
               <button
                 key={f}
@@ -107,7 +102,7 @@ export default function LibraryPage() {
           </div>
         </div>
 
-        {/* Book Grid */}
+        {/* Book Grid ========================================================= */}
         {filteredBooks.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredBooks.map((book) => (

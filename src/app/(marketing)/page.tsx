@@ -1,8 +1,9 @@
-import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import Demo from "@/components/Demo";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import CTA from "@/components/CTA";
+import Hero from "@/components/landing/Hero";
+import HowItWorks from "@/components/landing/HowItWorks";
+import Demo from "@/components/landing/Demo";
+import WhyChooseUs from "@/components/landing/WhyChooseUs";
+import CTA from "@/components/landing/CTA";
+import { ReaderDemo } from "@/components/library/ReaderDemoTest";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <HowItWorks />
       <Demo />
+      <ReaderDemo />
       <WhyChooseUs />
       <CTA />
     </div>
