@@ -1,0 +1,32 @@
+{
+  "book": {
+    "id": "petit-renard",
+    "title": "Le Voyage du Petit Renard",
+    "author": "Antoine de Saint-Exupéry Style",
+    "description": "Un jeune renard nommé Léo part à la recherche d'une montagne magique cachée derrière les brumes.",
+    "level": "Beginner",
+    "cover_image_url": ""
+  },
+  "chapter": {
+    "chapter_number": 2,
+    "title": "Chapitre 2: Le Hibou Sage"
+  },
+  "segments": [
+    {
+      "fr": "Léo marcha pendant des heures à travers la grande forêt obscure.",
+      "ar": "سار ليو لعدة ساعات عبر الغابة الكبيرة المظلمة."
+    },
+    {
+      "fr": "Soudain, il aperçut deux grands yeux brillants dans un vieux chêne.",
+      "ar": "فجأة، لمح عينين كبيرتين براقتين في شجرة بلوط قديمة."
+    },
+    {
+      "fr": "C'était le vieux hibou Barnabé, le gardien des secrets des montagnes.",
+      "ar": "كان ذلك البومة العجوز بارنابي، حارس أسرار الجبال."
+    },
+    {
+      "fr": "Pour trouver la montagne, dis-le hibou, tu dois suivre le chant de la rivière.",
+      "ar": "قال البومة: لتجد الجبل، عليك أن تتبع غناء النهر."
+    }
+  ]
+}

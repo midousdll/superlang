@@ -1,5 +1,5 @@
-import ReaderFooter from "@/components/reader/ReaderFooter";
-import ReaderNavBar from "@/components/reader/ReaderNavBar";
+// src/app/(reader)/reader/layout.tsx
+import React from "react";
 
 export default function ReaderLayout({
   children,
@@ -7,10 +7,8 @@ export default function ReaderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col h-screen bg-cream text-slate-dark">
-      <ReaderNavBar />
-      <main className="flex-1">{children}</main>
-      <ReaderFooter />
+    <div className="flex flex-col min-h-screen bg-cream text-slate-dark">
+      {children}
     </div>
   );
 }

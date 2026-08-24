@@ -1,31 +1,57 @@
+// src/components/reader/ReaderFooter.tsx
 "use client";
 
-export default function Navbar() {
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+interface ReaderFooterProps {
+  bookId: string;
+  currentChapter: number;
+  totalChapters: number;
+}
+
+export default function ReaderFooter({
+  bookId,
+  currentChapter,
+  totalChapters,
+}: ReaderFooterProps) {
+  const hasPrev = currentChapter > 1;
+  const hasNext = currentChapter < totalChapters;
+
   return (
-      <div className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button className="bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-slate-100 transition-colors">
-            Prev
-          </button>
-          <strong className="text-sm">CHAPTER TITLE</strong>
-          <button className="bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-slate-100 transition-colors">
-            Next
-          </button>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 text-sm font-semibold">
-            Words: 1,420
-          </span>
-          <span className="px-2 py-0.5 rounded bg-green-100 text-green-800 text-sm font-semibold">
-            Known: 850
-          </span>
-          <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-sm font-semibold">
-            To Learn: 42
-          </span>
-        </div>
-        <button className="bg-white border border-slate-300 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-slate-100 transition-colors">
-          Saved Words List
-        </button>
+    <footer className="w-full bg-cream border-t border-stone-200/80 py-8 px-6 mt-12">
+      <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+        {/* Previous Chapter */}
+        {hasPrev ? (
+          <Link
+            href={`/reader/${bookId}?chapter=${currentChapter - 1}`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xs border border-stone-300 bg-white text-slate-dark text-xs font-mono uppercase tracking-wider hover:bg-stone-50 transition-colors shadow-2xs"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Prev Chapter</span>
+          </Link>
+        ) : (
+          <div className="w-28" /> // Spacer
+        )}
+
+        {/* Chapter Counter */}
+        <span className="text-xs font-mono text-stone-500 uppercase tracking-widest">
+          Chapter {currentChapter} of {totalChapters}
+        </span>
+
+        {/* Next Chapter */}
+        {hasNext ? (
+          <Link
+            href={`/reader/${bookId}?chapter=${currentChapter + 1}`}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xs bg-slate-dark text-cream text-xs font-mono uppercase tracking-wider hover:bg-black transition-colors shadow-2xs"
+          >
+            <span>Next Chapter</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        ) : (
+          <div className="w-28" /> // Spacer
+        )}
       </div>
+    </footer>
   );
 }
