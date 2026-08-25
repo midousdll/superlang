@@ -1,0 +1,14 @@
+{
+  "id": "the-little-prince",
+  "title": "The Little Prince",
+  "titleTranslation": {
+    "fr": "Le Petit Prince",
+    "ar": "الأمير الصغير"
+  },
+  "author": "Antoine de Saint-Exupéry",
+  "level": "Beginner",
+  "description": "A young prince visits various planets in space, addressing themes of loneliness, friendship, love, and loss.",
+  "sourceLanguage": "en",
+  "targetLanguages": ["fr", "ar"],
+  "totalChapters": 27
+}

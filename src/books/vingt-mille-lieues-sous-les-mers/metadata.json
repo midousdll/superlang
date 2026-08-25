@@ -1,0 +1,13 @@
+{
+  "id": "vingt-mille-lieues-sous-les-mers",
+  "title": "Vingt Mille Lieues sous les mers",
+  "titleTranslation": {
+    "en": "Twenty Thousand Leagues Under the Sea"
+  },
+  "author": "Jules Verne",
+  "level": "Intermediate",
+  "description": "Professor Aronnax embarks on a high-seas expedition to hunt a mysterious sea monster, only to discover the futuristic submarine Nautilus and its enigmatic commander, Captain Nemo.",
+  "sourceLanguage": "fr",
+  "targetLanguages": ["en"],
+  "totalChapters": 47
+}

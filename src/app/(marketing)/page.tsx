@@ -3,7 +3,6 @@ import HowItWorks from "@/components/landing/HowItWorks";
 import Demo from "@/components/landing/Demo";
 import WhyChooseUs from "@/components/landing/WhyChooseUs";
 import CTA from "@/components/landing/CTA";
-import { ReaderDemo } from "@/components/library/ReaderDemoTest";
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
       <Hero />
       <HowItWorks />
       <Demo />
-      <ReaderDemo />
       <WhyChooseUs />
       <CTA />
     </div>

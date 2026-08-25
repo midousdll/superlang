@@ -1,71 +1,80 @@
-// src/lib/data/reader.ts
-import { createClient } from "@/lib/supabase/server";
-import { Book, Chapter, Segment } from "@/types/database";
+import fs from "fs";
+import path from "path";
 
-export interface FullChapterData {
-  book: Book;
-  chapter: Chapter;
-  segments: Segment[];
+export interface BookMetadata {
+  id: string;
+  title: string;
+  titleTranslation?: Record<string, string>;
+  author: string;
+  sourceLanguage: string;
+  targetLanguages: string[];
+  totalChapters: number;
+  description?: string;
+  level?: string;
 }
 
-export async function getChapterSegments(
+export interface Sentence {
+  id: string;
+  original: string;
+  translations: Record<string, string>;
+}
+
+export interface Paragraph {
+  id: string;
+  sentences: Sentence[];
+}
+
+export interface ChapterData {
+  chapterNumber: number;
+  title: string;
+  titleTranslation?: Record<string, string>;
+  paragraphs: Paragraph[];
+}
+
+const BOOKS_DIR = path.join(process.cwd(), "src/books");
+
+export async function getAllBooks(): Promise<BookMetadata[]> {
+  if (!fs.existsSync(BOOKS_DIR)) return [];
+
+  const folderNames = fs.readdirSync(BOOKS_DIR);
+
+  return folderNames
+    .map((folder) => {
+      const metadataPath = path.join(BOOKS_DIR, folder, "metadata.json");
+      if (fs.existsSync(metadataPath)) {
+        const fileContent = fs.readFileSync(metadataPath, "utf-8");
+        return JSON.parse(fileContent) as BookMetadata;
+      }
+      return null;
+    })
+    .filter((book): book is BookMetadata => book !== null);
+}
+
+export async function getBookMetadata(bookId: string): Promise<BookMetadata | null> {
+  const metadataPath = path.join(BOOKS_DIR, bookId, "metadata.json");
+  if (!fs.existsSync(metadataPath)) return null;
+
+  const fileContent = fs.readFileSync(metadataPath, "utf-8");
+  const data = JSON.parse(fileContent);
+
+  return {
+    ...data,
+    totalChapters: data.totalChapters ?? 1,
+  };
+}
+
+export async function getChapterData(
   bookId: string,
   chapterNumber: number = 1
-): Promise<FullChapterData | null> {
-  const supabase = createClient();
+): Promise<ChapterData | null> {
+  const chapterPath = path.join(BOOKS_DIR, bookId, `chapter-${chapterNumber}.json`);
+  if (!fs.existsSync(chapterPath)) return null;
 
-  // 1. Fetch Book Metadata
-  const { data: book, error: bookError } = await supabase
-    .from("books")
-    .select("*")
-    .eq("id", bookId)
-    .maybeSingle();
+  const fileContent = fs.readFileSync(chapterPath, "utf-8");
+  const data = JSON.parse(fileContent);
 
-  if (bookError || !book) {
-    console.error(`Book Fetch Error for id "${bookId}":`, bookError?.message || "Book not found");
-    return null;
-  }
-
-  // 2. Fetch Target Chapter
-  const { data: chapter, error: chapterError } = await supabase
-    .from("chapters")
-    .select("*")
-    .eq("book_id", bookId)
-    .eq("chapter_number", chapterNumber)
-    .maybeSingle();
-
-  if (chapterError || !chapter) {
-    console.error("Chapter Fetch Error:", chapterError?.message || "Chapter not found");
-    return null;
-  }
-
-  // 3. Fetch Segments
-  const { data: segments, error: segmentsError } = await supabase
-    .from("segments")
-    .select("*")
-    .eq("chapter_id", chapter.id)
-    .order("segment_order", { ascending: true });
-
-  if (segmentsError || !segments) {
-    console.error("Segments Fetch Error:", segmentsError?.message);
-    return null;
-  }
-
-  return { book, chapter, segments };
-}
-
-export async function getAllBooks(): Promise<Book[]> {
-  const supabase = createClient();
-
-  const { data: books, error } = await supabase
-    .from("books")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error || !books) {
-    console.error("Failed to fetch books:", error?.message);
-    return [];
-  }
-
-  return books;
+  return {
+    ...data,
+    chapterNumber: data.chapterNumber ?? chapterNumber,
+  };
 }

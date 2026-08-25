@@ -1,0 +1,47 @@
+{
+  "chapterNumber": 3,
+  "title": "La Lumière du Sommet",
+  "titleTranslation": {
+    "en": "Chapter 3: The Light of the Summit",
+    "ar": "الفصل الثالث: ضوء القمة"
+  },
+  "paragraphs": [
+    {
+      "id": "p1",
+      "sentences": [
+        {
+          "id": "p1-s1",
+          "original": "Après trois jours de marche épuisante, Léo atteignit enfin le sommet de la montagne magique.",
+          "translations": {
+            "en": "After three days of exhausting walking, Leo finally reached the summit of the magic mountain.",
+            "ar": "بعد ثلاثة أيام من السير المرهق، وصل ليو أخيراً إلى قمة الجبل السحري."
+          }
+        },
+        {
+          "id": "p1-s2",
+          "original": "Devant lui se dressait l'arbre légendaire, étincelant d'une douce lumière dorée sous le ciel nocturne.",
+          "translations": {
+            "en": "Before him stood the legendary tree, sparkling with a soft golden light under the night sky.",
+            "ar": "أمامه انتصبت الشجرة الأسطورية، متلألئة بضوء ذهبي ناعم تحت سماء الليل."
+          }
+        },
+        {
+          "id": "p1-s3",
+          "original": "En s'approchant, il comprit que la vraie magie ne résidait pas seulement dans l'arbre, mais dans tout le courage qu'il avait prouvé durant son voyage.",
+          "translations": {
+            "en": "As he approached, he realized that the true magic lay not only in the tree, but in all the courage he had shown during his journey.",
+            "ar": "وعندما اقترب، أدرك أن السحر الحقيقي لا يكمن فقط في الشجرة، بل في كل الشجاعة التي أظهرها خلال رحلته."
+          }
+        },
+        {
+          "id": "p1-s4",
+          "original": "Il s'assit calmement sous les branches illuminées, prêt à raconter son histoire au monde entier.",
+          "translations": {
+            "en": "He sat calmly under the illuminated branches, ready to tell his story to the entire world.",
+            "ar": "جلس بهدوء تحت الأغصان المضاءة، مستعداً لسرد قصته للعالم أجمع."
+          }
+        }
+      ]
+    }
+  ]
+}

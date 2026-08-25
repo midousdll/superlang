@@ -1,0 +1,14 @@
+{
+  "id": "petit-renard",
+  "title": "Le Voyage du Petit Renard",
+  "titleTranslation": {
+    "en": "The Journey of the Little Fox",
+    "ar": "رحلة الثعلب الصغير"
+  },
+  "author": "AI",
+  "level": "Beginner",
+  "description": "A charming story about a little fox exploring the forest.",
+  "sourceLanguage": "fr",
+  "targetLanguages": ["en", "ar"],
+  "totalChapters": 3
+}

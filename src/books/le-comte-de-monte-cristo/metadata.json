@@ -1,0 +1,14 @@
+{
+  "id": "le-comte-de-monte-cristo",
+  "title": "Le Comte de Monte-Cristo",
+  "titleTranslation": {
+    "en": "The Count of Monte Cristo",
+    "ar": "الكونت دي مونت كريستو"
+  },
+  "author": "Alexandre Dumas",
+  "level": "Intermediate",
+  "description": "Edmond Dantès is falsely accused of treason and imprisoned. After escaping, he unearths a hidden treasure and plans revenge against those who betrayed him.",
+  "sourceLanguage": "fr",
+  "targetLanguages": ["en", "ar"],
+  "totalChapters": 117
+}

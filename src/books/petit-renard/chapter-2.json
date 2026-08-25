@@ -1,0 +1,55 @@
+{
+  "chapterNumber": 2,
+  "title": "La Traversée de la Rivière",
+  "titleTranslation": {
+    "en": "Chapter 2: Crossing the River",
+    "ar": "الفصل الثاني: عبور النهر"
+  },
+  "paragraphs": [
+    {
+      "id": "p1",
+      "sentences": [
+        {
+          "id": "p1-s1",
+          "original": "Au deuxième jour de son voyage, Léo arriva devant une grande rivière impétueuse.",
+          "translations": {
+            "en": "On the second day of his journey, Leo arrived in front of a large, raging river.",
+            "ar": "في اليوم الثاني من رحلته، وصل ليو إلى نهر كبير وهائج."
+          }
+        },
+        {
+          "id": "p1-s2",
+          "original": "Le courant était beaucoup trop fort pour qu'il puisse traverser à la nage.",
+          "translations": {
+            "en": "The current was far too strong for him to swim across.",
+            "ar": "كان التيار قوياً جداً بحيث لا يمكنه العبور سباحة."
+          }
+        },
+        {
+          "id": "p1-s3",
+          "original": "Heureusement, une vieille tortue sage se reposait sur le rivage.",
+          "translations": {
+            "en": "Fortunately, a wise old turtle was resting on the riverbank.",
+            "ar": "لحسن الحظ، كانت هناك سلحفاة حكيمة عجوز تستريح على ضفة النهر."
+          }
+        },
+        {
+          "id": "p1-s4",
+          "original": "La tortue lui proposa d'embarquer sur son dos solide pour franchir l'eau en toute sécurité.",
+          "translations": {
+            "en": "The turtle offered to let him ride on her sturdy back to cross the water safely.",
+            "ar": "عرضت عليه السلحفاة الركوب على ظهرها القوي ليعبر الماء بأمان."
+          }
+        },
+        {
+          "id": "p1-s5",
+          "original": "Rempli de gratitude, Léo la remercia chaleureusement et reprit sa marche vers les sommets.",
+          "translations": {
+            "en": "Filled with gratitude, Leo thanked her warmly and resumed his trek toward the peaks.",
+            "ar": "مليئاً بالامتنان، شكرها ليو بحرارة واستأنف مسيره نحو القمم."
+          }
+        }
+      ]
+    }
+  ]
+}

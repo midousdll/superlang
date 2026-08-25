@@ -1,0 +1,47 @@
+{
+  "chapterNumber": 1,
+  "title": "Le Secret de la Forêt",
+  "titleTranslation": {
+    "en": "Chapter 1: The Secret of the Forest",
+    "ar": "الفصل الأول: سر الغابة"
+  },
+  "paragraphs": [
+    {
+      "id": "p1",
+      "sentences": [
+        {
+          "id": "p1-s1",
+          "original": "Au cœur de la forêt, un jeune renard nommé Léo observait les étoiles.",
+          "translations": {
+            "en": "In the heart of the forest, a young fox named Leo was watching the stars.",
+            "ar": "في قلب الغابة، كان ثعلب صغير يدعى ليو يتأمل النجوم."
+          }
+        },
+        {
+          "id": "p1-s2",
+          "original": "Son grand-père lui avait souvent parlé d'une montagne magique cachée derrière les brumes.",
+          "translations": {
+            "en": "His grandfather had often told him about a magical mountain hidden behind the mist.",
+            "ar": "كثيراً ما تحدث إليه جده عن جبل سحري مخفي خلف الضباب."
+          }
+        },
+        {
+          "id": "p1-s3",
+          "original": "On racontait que sur cette montagne grandissait un arbre dont les feuilles brillaient dans la nuit.",
+          "translations": {
+            "en": "It was said that on this mountain grew a tree whose leaves glowed in the night.",
+            "ar": "وقيل إن شجرة تنمو على ذلك الجبل وتلمع أوراقها في الليل."
+          }
+        },
+        {
+          "id": "p1-s4",
+          "original": "Intrigué par cette légende, Léo décida de préparer son sac pour partir à l'aventure dès le lever du soleil.",
+          "translations": {
+            "en": "Intrigued by this legend, Leo decided to pack his bag to set off on an adventure at sunrise.",
+            "ar": "فضولياً بهذه الأسطورة، قرر ليو إعداد حقيبته للانطلاق في مغامرة عند شروق الشمس."
+          }
+        }
+      ]
+    }
+  ]
+}
