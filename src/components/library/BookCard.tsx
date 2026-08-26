@@ -10,7 +10,7 @@ export default function BookCard({ book }: { book: BookMetadata }) {
           {book.sourceLanguage.toUpperCase()}
         </span>
         <span className="px-2 py-0.5 rounded-xs text-[10px] font-mono font-bold tracking-wider uppercase bg-amber-50 text-amber-800 border border-amber-200">
-          {book.level || "Beginner"}
+          {book.level || "Under Review"}
         </span>
       </div>
 
@@ -26,7 +26,7 @@ export default function BookCard({ book }: { book: BookMetadata }) {
         </div>
 
         <p className="text-xs text-stone-600 leading-relaxed line-clamp-3 flex-1">
-          {book.description || "A bilingual story for language learners."}
+          {book.description || "No description yet."}
         </p>
 
         <div className="flex items-center justify-between pt-3 border-t border-stone-100 mt-auto">

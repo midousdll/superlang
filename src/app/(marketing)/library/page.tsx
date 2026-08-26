@@ -3,18 +3,19 @@ import BookCard from "@/components/library/BookCard";
 import Link from "next/link";
 
 export default async function LibraryPage() {
+  // getAllBooks() is a method in lib/data/reader.ts
   const books = await getAllBooks();
-
   // Set the specific book ID you want to feature here:
   const FEATURED_BOOK_ID = "petit-renard";
-
-  const featuredBook =
-    books.find((b) => b.id === FEATURED_BOOK_ID) || books[0];
+  // "books" : is an array of book objects.
+  // "(b) => b.id === FEATURED_BOOK_ID" : tests whether a book's id matches a constant.
+  // "|| books[0]" : if it's missing, show the first book instead.
+  const featuredBook = books.find((b) => b.id === FEATURED_BOOK_ID) || books[0];
 
   return (
-    <div className="flex flex-col flex-1 w-full bg-cream text-slate-900 min-h-screen">
+    <div className="flex flex-col flex-1 w-full bg-cream text-slate-900 min-h-screen border-t border-b border-black">
       {/* Header */}
-      <div className="w-full border-b border-slate-200 bg-cream px-6 py-12">
+      <div className="w-full border-b border-black bg-cream px-6 py-12">
         <div className="max-w-6xl mx-auto space-y-2">
           <span className="text-xs font-mono font-bold tracking-widest text-amber-600 uppercase block">
             ✦ CATALOG
@@ -29,7 +30,7 @@ export default async function LibraryPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto w-full px-6 py-10 flex flex-col gap-10">
+      <div className="max-w-6xl mx-auto w-full px-6 py-10 flex flex-col gap-10 border-2 border-orange">
         {featuredBook ? (
           <>
             {/* Featured Book Banner */}
@@ -60,7 +61,7 @@ export default async function LibraryPage() {
 
             {/* All Books Grid */}
             {books.length > 1 && (
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 border-2 border-black">
                 <h3 className="text-xl font-serif font-semibold">All Books</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {books.map((book) => (
