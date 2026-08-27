@@ -1,19 +1,20 @@
-// it means there are interactivities here
 "use client";
 
 import { ChevronLeft, Settings } from "lucide-react";
 import Link from "next/link";
+import { SupportedLanguage, languageLabel } from "@/lib/languages";
 
 export type InteractionMode = "sentence" | "word";
 export type SidebarViewMode = "translation" | "words";
-export type SupportedLanguage = "en" | "fr" | "ar";
+// Re-exported for backward-compatibility with existing imports.
+export type { SupportedLanguage } from "@/lib/languages";
 
 interface ReaderNavBarProps {
   bookTitle: string;
   bookAuthor?: string;
-  sourceLanguage?: SupportedLanguage;
-  targetLanguage: SupportedLanguage;
-  onLanguageChange: (lang: SupportedLanguage) => void;
+  targetLanguage: SupportedLanguage | null;
+  availableTargetLanguages: SupportedLanguage[];
+  onLanguageChange: (lang: SupportedLanguage | null) => void;
   sidebarViewMode: SidebarViewMode;
   onSidebarViewChange: (mode: SidebarViewMode) => void;
   interactionMode: InteractionMode;
@@ -21,16 +22,10 @@ interface ReaderNavBarProps {
   onBackToLibrary?: () => void;
 }
 
-const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
-  en: "English",
-  fr: "French",
-  ar: "Arabic",
-};
-
 export default function ReaderNavBar({
   bookTitle,
   bookAuthor,
-  sourceLanguage,
+  availableTargetLanguages,
   targetLanguage,
   onLanguageChange,
   sidebarViewMode,
@@ -38,10 +33,6 @@ export default function ReaderNavBar({
   interactionMode,
   onInteractionModeChange,
 }: ReaderNavBarProps) {
-
-  // Available target languages based on source language
-  const availableTargetLanguages: SupportedLanguage[] = sourceLanguage === "fr" ? ["en", "ar"] : ["fr", "en"];
-
   return (
     <header className="sticky top-0 z-30 w-full bg-cream border-b border-black px-4 py-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -113,17 +104,27 @@ export default function ReaderNavBar({
 
           {/* Target Language Dropdown */}
           <select
-            value={targetLanguage}
+            value={targetLanguage ?? ""}
+            disabled={availableTargetLanguages.length === 0}
             onChange={(e) =>
-              onLanguageChange(e.target.value as SupportedLanguage)
+              onLanguageChange(e.target.value as SupportedLanguage | null)
             }
-            className="h-8 px-2 bg-white border border-stone-200 rounded-xs font-mono text-xs text-black focus:outline-none focus:border-amber-600"
+            title={
+              availableTargetLanguages.length === 0
+                ? "No translation available for this book"
+                : undefined
+            }
+            className="h-8 px-2 bg-white border border-stone-200 rounded-xs font-mono text-xs text-black focus:outline-none focus:border-amber-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {availableTargetLanguages.map((lang) => (
-              <option key={lang} value={lang}>
-                {LANGUAGE_LABELS[lang]}
-              </option>
-            ))}
+            {availableTargetLanguages.length === 0 ? (
+              <option value="">No translation</option>
+            ) : (
+              availableTargetLanguages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {languageLabel(lang)}
+                </option>
+              ))
+            )}
           </select>
 
           {/* Settings */}
