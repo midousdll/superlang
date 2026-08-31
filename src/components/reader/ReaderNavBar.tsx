@@ -4,8 +4,7 @@ import { ChevronLeft, Settings } from "lucide-react";
 import Link from "next/link";
 import { SupportedLanguage, languageLabel } from "@/lib/languages";
 
-export type InteractionMode = "sentence" | "word";
-export type SidebarViewMode = "translation" | "words";
+export type ReaderMode = "translation" | "words";
 // Re-exported for backward-compatibility with existing imports.
 export type { SupportedLanguage } from "@/lib/languages";
 
@@ -15,10 +14,8 @@ interface ReaderNavBarProps {
   targetLanguage: SupportedLanguage | null;
   availableTargetLanguages: SupportedLanguage[];
   onLanguageChange: (lang: SupportedLanguage | null) => void;
-  sidebarViewMode: SidebarViewMode;
-  onSidebarViewChange: (mode: SidebarViewMode) => void;
-  interactionMode: InteractionMode;
-  onInteractionModeChange: (mode: InteractionMode) => void;
+  mode: ReaderMode;
+  onModeChange: (mode: ReaderMode) => void;
   onBackToLibrary?: () => void;
 }
 
@@ -28,10 +25,8 @@ export default function ReaderNavBar({
   availableTargetLanguages,
   targetLanguage,
   onLanguageChange,
-  sidebarViewMode,
-  onSidebarViewChange,
-  interactionMode,
-  onInteractionModeChange,
+  mode,
+  onModeChange,
 }: ReaderNavBarProps) {
   return (
     <header className="sticky top-0 z-30 w-full bg-cream border-b border-black px-4 py-3">
@@ -52,53 +47,29 @@ export default function ReaderNavBar({
           </div>
         </div>
 
-        {/* Center: Interaction Mode Controls */}
-        <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono">
-          <button
-            onClick={() => onInteractionModeChange("sentence")}
-            className={`px-3 py-1 rounded-xs transition-all ${
-              interactionMode === "sentence"
-                ? "bg-orange text-white font-bold shadow-2xs"
-                : "text-stone-500 hover:text-black"
-            }`}
-          >
-            Sentence
-          </button>
-          <button
-            onClick={() => onInteractionModeChange("word")}
-            className={`px-3 py-1 rounded-xs transition-all ${
-              interactionMode === "word"
-                ? "bg-orange text-white font-bold shadow-2xs"
-                : "text-stone-500 hover:text-black"
-            }`}
-          >
-            Word
-          </button>
-        </div>
-
-        {/* Right: View Toggles & Language Selector */}
+        {/* Right: Mode Toggle & Language Selector */}
         <div className="flex items-center gap-3">
-          {/* View Mode Toggle */}
+          {/* Reading Mode Toggle */}
           <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono">
             <button
-              onClick={() => onSidebarViewChange("translation")}
+              onClick={() => onModeChange("translation")}
               className={`px-2.5 py-1 rounded-xs transition-all ${
-                sidebarViewMode === "translation"
+                mode === "translation"
                 ? "bg-orange text-white font-bold shadow-2xs"
                 : "text-stone-500 hover:text-black"
               }`}
             >
-              Side-by-Side
+              Sentence
             </button>
             <button
-              onClick={() => onSidebarViewChange("words")}
+              onClick={() => onModeChange("words")}
               className={`px-2.5 py-1 rounded-xs transition-all ${
-                sidebarViewMode === "words"
+                mode === "words"
                 ? "bg-orange text-white font-bold shadow-2xs"
                 : "text-stone-500 hover:text-black"
               }`}
             >
-              Saved Words
+              Words
             </button>
           </div>
 

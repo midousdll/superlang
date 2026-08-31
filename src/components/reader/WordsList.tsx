@@ -1,53 +1,30 @@
 "use client";
 
 import { useState } from "react";
-
-interface SavedWord {
-  id: string;
-  original: string;
-  translation: string;
-  contextSentence?: string;
-  language: string;
-}
+import { SavedWord, WordStatus } from "@/lib/vocabulary";
 
 interface WordsListProps {
-  bookId: string;
+  words: SavedWord[];
+  onRemove: (id: string) => void;
 }
 
-// Initial placeholder state for saved words per book
-const DEMO_SAVED_WORDS: SavedWord[] = [
-  {
-    id: "w1",
-    original: "renard",
-    translation: "fox",
-    contextSentence: "Le petit renard habite dans une grande forêt.",
-    language: "fr",
-  },
-  {
-    id: "w2",
-    original: "forêt",
-    translation: "forest",
-    contextSentence: "Le petit renard habite dans une grande forêt.",
-    language: "fr",
-  },
-  {
-    id: "w3",
-    original: "voyageur",
-    translation: "traveler",
-    contextSentence: "Il rencontre un jeune voyageur.",
-    language: "fr",
-  },
+type WordFilter = "all" | WordStatus;
+
+const FILTERS: { value: WordFilter; label: string }[]= [
+  { value: "all", label: "All" },
+  { value: "known", label: "Known" },
+  { value: "to-learn", label: "To Learn" },
 ];
 
-export default function WordsList({ bookId }: WordsListProps) {
-  // Suppress unused warning while preparing for persistence hooks
-  void bookId;
+export default function WordsList({ words, onRemove }: WordsListProps) {
+  const [filter, setFilter] = useState<WordFilter>("all");
 
-  const [words, setWords] = useState<SavedWord[]>(DEMO_SAVED_WORDS);
+  const visibleWords =
+    filter === "all" ? words : words.filter((w) => w.status === filter);
 
-  const handleRemoveWord = (id: string) => {
-    setWords((prev) => prev.filter((w) => w.id !== id));
-  };
+  const filteredCount = filter === "all" ? words.length : visibleWords.length;
+  const hasItems = words.length > 0;
+  const showEmptyMessage = hasItems && visibleWords.length === 0;
 
   return (
     <div className="flex flex-col gap-6 bg-white border border-stone-200 p-6 rounded-xs shadow-2xs">
@@ -62,14 +39,49 @@ export default function WordsList({ bookId }: WordsListProps) {
           </p>
         </div>
         <span className="px-2.5 py-1 rounded-xs text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200">
-          {words.length} {words.length === 1 ? "word" : "words"}
+          {filteredCount} {filteredCount === 1 ? "word" : "words"}
+          {hasItems && filter !== "all" ? ` of  ${words.length}` : ""}
         </span>
       </div>
 
+      {/* Filter Tabs */}
+      <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono self-start">
+        {FILTERS.map((f) => (
+          <button
+            key={f.value}
+            onClick={() => setFilter(f.value)}
+            className={`px-2.5 py-1 rounded-xs transition-all ${
+              filter === f.value
+                ? "bg-orange text-white font-bold shadow-2xs"
+                : "text-stone-500 hover:text-black"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
       {/* Vocabulary List */}
-      {words.length > 0 ? (
+      {!hasItems ? (
+        <div className="py-12 text-center border border-dashed border-stone-200 rounded-xs">
+          <p className="font-serif text-stone-500 text-sm">
+            No saved words yet.
+          </p>
+          <p className="text-xs font-mono text-stone-400 mt-1">
+            Click on words while reading to save them here.
+          </p>
+        </div>
+      ) : showEmptyMessage ? (
+        <div className="py-12 text-center border border-dashed border-stone-200 rounded-xs">
+          <p className="font-serif text-stone-500 text-sm">
+            {filter === "known"
+              ? "No known words yet."
+              : "No words to learn yet."}
+          </p>
+        </div>
+      ) : (
         <div className="flex flex-col gap-3">
-          {words.map((item) => (
+          {visibleWords.map((item) => (
             <div
               key={item.id}
               className="group flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-stone-50/60 border border-stone-200/80 rounded-xs hover:border-amber-300 transition-colors"
@@ -83,6 +95,15 @@ export default function WordsList({ bookId }: WordsListProps) {
                   <span className="font-sans text-sm font-medium text-amber-800">
                     {item.translation}
                   </span>
+                  <span
+                    className={`px-2 py-0.5 rounded-xs text-[10px] font-mono font-bold uppercase tracking-wider border ${
+                      item.status === "known"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-amber-50 text-amber-800 border-amber-200"
+                    }`}
+                  >
+                    {item.status === "known" ? "Known" : "To Learn"}
+                  </span>
                 </div>
 
                 {item.contextSentence && (
@@ -93,7 +114,7 @@ export default function WordsList({ bookId }: WordsListProps) {
               </div>
 
               <button
-                onClick={() => handleRemoveWord(item.id)}
+                onClick={() => onRemove(item.id)}
                 className="self-end sm:self-center text-xs font-mono text-stone-400 hover:text-red-600 transition-colors px-2 py-1"
                 title="Remove word"
               >
@@ -101,15 +122,6 @@ export default function WordsList({ bookId }: WordsListProps) {
               </button>
             </div>
           ))}
-        </div>
-      ) : (
-        <div className="py-12 text-center border border-dashed border-stone-200 rounded-xs">
-          <p className="font-serif text-stone-500 text-sm">
-            No saved words yet.
-          </p>
-          <p className="text-xs font-mono text-stone-400 mt-1">
-            Click on words while reading to save them here.
-          </p>
         </div>
       )}
     </div>

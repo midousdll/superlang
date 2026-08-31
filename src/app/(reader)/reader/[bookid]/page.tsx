@@ -1,5 +1,5 @@
 import { getBookMetadata, getChapterData } from "@/lib/data/reader";
-import ReaderClient from "@/components/reader/ReaderClient";
+import ReaderShell from "@/components/reader/ReaderShell";
 import { notFound } from "next/navigation";
 
 interface ReaderPageProps {
@@ -36,5 +36,5 @@ export default async function ReaderPage({
     notFound();
   }
 
-  return <ReaderClient book={book} chapter={chapter} />;
+  return <ReaderShell book={book} chapter={chapter} />;
 }
