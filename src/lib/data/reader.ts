@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { splitIntoTokens } from "@/lib/text";
+import { normalizeWord } from "@/lib/vocabulary";
 
 export interface BookMetadata {
   id: string;
@@ -77,4 +79,33 @@ export async function getChapterData(
     ...data,
     chapterNumber: data.chapterNumber ?? chapterNumber,
   };
+}
+
+/**
+ * The normalized, deduped vocabulary of a chapter — every unique word
+ * that appears in it.
+ *
+ * Uses the SAME tokenizer as the reader UI (splitIntoTokens), so a word
+ * clicked in the text always matches an entry here. Computed per request
+ * on the server; cheap for current book sizes. If books ever grow into
+ * real novels, this is the function to swap for a build-time precompute.
+ */
+export async function getChapterVocabulary(
+  bookId: string,
+  chapterNumber: number = 1
+): Promise<string[]> {
+  const chapter = await getChapterData(bookId, chapterNumber);
+  if (!chapter) return [];
+
+  const words = new Set<string>();
+  for (const paragraph of chapter.paragraphs) {
+    for (const sentence of paragraph.sentences) {
+      for (const token of splitIntoTokens(sentence.id, sentence.original)) {
+        if (token.isWord) words.add(normalizeWord(token.text));
+      }
+    }
+  }
+
+  // Sorted for deterministic output (stable React keys, testable snapshots).
+  return Array.from(words).sort();
 }

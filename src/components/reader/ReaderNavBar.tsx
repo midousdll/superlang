@@ -3,8 +3,10 @@
 import { ChevronLeft, Settings } from "lucide-react";
 import Link from "next/link";
 import { SupportedLanguage, languageLabel } from "@/lib/languages";
+import type { ReaderMode } from "@/lib/reader-mode";
 
-export type ReaderMode = "translation" | "words";
+// Re-exported for backward-compatibility with existing imports.
+export type { ReaderMode };
 // Re-exported for backward-compatibility with existing imports.
 export type { SupportedLanguage } from "@/lib/languages";
 

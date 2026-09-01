@@ -1,11 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { SavedWord, WordStatus } from "@/lib/vocabulary";
+import { Check, GraduationCap, Trash2 } from "lucide-react";
+import { ChapterStats, SavedWord, WordStatus } from "@/lib/vocabulary";
+import { SupportedLanguage } from "./ReaderNavBar";
+import { getWordTranslation } from "@/lib/dictionaries";
 
 interface WordsListProps {
   words: SavedWord[];
+  /** Chapter progress: total / known / to-learn / new. */
+  stats: ChapterStats;
+  /** Book's source language — needed to pick the right dictionary. */
+  sourceLanguage?: string;
+  /** CURRENT navbar language — translations are resolved live, so the
+   *  list always shows the language selected right now, not at save time. */
+  targetLanguage: SupportedLanguage | null;
   onRemove: (id: string) => void;
+  /** Flip a word between known <-> to-learn. */
+  onToggleStatus: (id: string) => void;
 }
 
 type WordFilter = "all" | WordStatus;
@@ -16,7 +28,14 @@ const FILTERS: { value: WordFilter; label: string }[]= [
   { value: "to-learn", label: "To Learn" },
 ];
 
-export default function WordsList({ words, onRemove }: WordsListProps) {
+export default function WordsList({
+  words,
+  stats,
+  sourceLanguage,
+  targetLanguage,
+  onRemove,
+  onToggleStatus,
+}: WordsListProps) {
   const [filter, setFilter] = useState<WordFilter>("all");
 
   const visibleWords =
@@ -35,7 +54,7 @@ export default function WordsList({ words, onRemove }: WordsListProps) {
             Saved Vocabulary
           </h2>
           <p className="text-xs font-mono text-stone-500 mt-1">
-            Words collected while reading this book
+            Words in this chapter that you have tagged
           </p>
         </div>
         <span className="px-2.5 py-1 rounded-xs text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200">
@@ -43,6 +62,16 @@ export default function WordsList({ words, onRemove }: WordsListProps) {
           {hasItems && filter !== "all" ? ` of  ${words.length}` : ""}
         </span>
       </div>
+
+      {/* Chapter progress stats */}
+      <p className="text-xs font-mono text-stone-500">
+        Total words in this chapter:{" "}
+        <span className="font-bold text-slate-900">{stats.total}</span>{" "}
+        {stats.total === 1 ? "word" : "words"} /{" "}
+        <span className="font-bold text-emerald-700">{stats.known}</span> known /{" "}
+        <span className="font-bold text-amber-800">{stats.toLearn}</span> to learn /{" "}
+        <span className="font-bold text-stone-400">{stats.newWords}</span> new
+      </p>
 
       {/* Filter Tabs */}
       <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono self-start">
@@ -81,7 +110,13 @@ export default function WordsList({ words, onRemove }: WordsListProps) {
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {visibleWords.map((item) => (
+          {visibleWords.map((item) => {
+            // Resolve the translation LIVE against the current navbar
+            // language (item.translation is only the save-time snapshot).
+            // Missing in this language → "—", matching the popup.
+            const translation =
+              getWordTranslation(item.original, sourceLanguage ?? "", targetLanguage) ?? "—";
+            return (
             <div
               key={item.id}
               className="group flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-stone-50/60 border border-stone-200/80 rounded-xs hover:border-amber-300 transition-colors"
@@ -93,7 +128,7 @@ export default function WordsList({ words, onRemove }: WordsListProps) {
                   </span>
                   <span className="text-xs font-mono text-stone-400">→</span>
                   <span className="font-sans text-sm font-medium text-amber-800">
-                    {item.translation}
+                    {translation}
                   </span>
                   <span
                     className={`px-2 py-0.5 rounded-xs text-[10px] font-mono font-bold uppercase tracking-wider border ${
@@ -113,15 +148,42 @@ export default function WordsList({ words, onRemove }: WordsListProps) {
                 )}
               </div>
 
-              <button
-                onClick={() => onRemove(item.id)}
-                className="self-end sm:self-center text-xs font-mono text-stone-400 hover:text-red-600 transition-colors px-2 py-1"
-                title="Remove word"
-              >
-                Remove
-              </button>
+              {/* Row actions: flip status (shows the OTHER bucket's action) + remove */}
+              <div className="flex items-center gap-1 self-end sm:self-center">
+                <button
+                  onClick={() => onToggleStatus(item.id)}
+                  title={
+                    item.status === "known"
+                      ? "Move to To Learn"
+                      : "Mark as Known"
+                  }
+                  aria-label={
+                    item.status === "known"
+                      ? `Move ${item.original} to To Learn`
+                      : `Mark ${item.original} as Known`
+                  }
+                  className={`text-stone-400 transition-colors p-1.5 rounded-xs hover:bg-stone-100 ${
+                    item.status === "known" ? "hover:text-amber-700" : "hover:text-emerald-700"
+                  }`}
+                >
+                  {item.status === "known" ? (
+                    <GraduationCap className="w-4 h-4" />
+                  ) : (
+                    <Check className="w-4 h-4" />
+                  )}
+                </button>
+                <button
+                  onClick={() => onRemove(item.id)}
+                  className="text-stone-400 hover:text-red-600 transition-colors p-1.5 rounded-xs hover:bg-stone-100"
+                  title="Remove word"
+                  aria-label={`Remove ${item.original}`}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
