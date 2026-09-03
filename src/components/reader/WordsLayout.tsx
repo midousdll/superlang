@@ -21,6 +21,8 @@ interface WordsLayoutProps {
   targetLanguage: SupportedLanguage | null;
   /** Saved words that appear in THIS chapter (derived from the global vocabulary). */
   words: SavedWord[];
+  /** ALL saved words for this book's language (no chapter filter) — powers the list's "All Words" scope. */
+  allWords: SavedWord[];
   /** Chapter progress: total / known / to-learn / new. */
   stats: ChapterStats;
   onRemoveWord: (id: string) => void;
@@ -46,6 +48,7 @@ export default function WordsLayout({
   sourceLanguage,
   targetLanguage,
   words,
+  allWords,
   stats,
   onRemoveWord,
   onSaveWord,
@@ -99,6 +102,7 @@ export default function WordsLayout({
       <div className="lg:col-span-1 border border-red lg:h-full lg:overflow-y-auto">
         <WordsList
           words={words}
+          allWords={allWords}
           stats={stats}
           sourceLanguage={sourceLanguage}
           targetLanguage={targetLanguage}

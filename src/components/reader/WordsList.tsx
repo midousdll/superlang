@@ -1,13 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Check, GraduationCap, Trash2 } from "lucide-react";
-import { ChapterStats, SavedWord, WordStatus } from "@/lib/vocabulary";
+import { Check, GraduationCap, Search, Trash2 } from "lucide-react";
+import {
+  ChapterStats,
+  SavedWord,
+  WordStatus,
+  normalizeWord,
+} from "@/lib/vocabulary";
 import { SupportedLanguage } from "./ReaderNavBar";
 import { getWordTranslation } from "@/lib/dictionaries";
 
 interface WordsListProps {
+  /** Saved words that appear in THIS chapter. */
   words: SavedWord[];
+  /** ALL saved words for this book's language — used by the "All Words" scope. */
+  allWords: SavedWord[];
   /** Chapter progress: total / known / to-learn / new. */
   stats: ChapterStats;
   /** Book's source language — needed to pick the right dictionary. */
@@ -28,8 +36,17 @@ const FILTERS: { value: WordFilter; label: string }[]= [
   { value: "to-learn", label: "To Learn" },
 ];
 
+/** Which slice of the vocabulary the list shows. */
+type WordScope = "chapter" | "all";
+
+const SCOPES: { value: WordScope; label: string }[] = [
+  { value: "chapter", label: "This Chapter" },
+  { value: "all", label: "All Words" },
+];
+
 export default function WordsList({
   words,
+  allWords,
   stats,
   sourceLanguage,
   targetLanguage,
@@ -37,12 +54,27 @@ export default function WordsList({
   onToggleStatus,
 }: WordsListProps) {
   const [filter, setFilter] = useState<WordFilter>("all");
+  const [scope, setScope] = useState<WordScope>("chapter");
+  const [search, setSearch] = useState("");
 
-  const visibleWords =
-    filter === "all" ? words : words.filter((w) => w.status === filter);
+  // "This Chapter" shows only words in the current chapter (previous
+  // behavior); "All Words" shows the full saved vocabulary for this language.
+  const scopeWords = scope === "all" ? allWords : words;
 
-  const filteredCount = filter === "all" ? words.length : visibleWords.length;
-  const hasItems = words.length > 0;
+  // Status tabs + case-insensitive search both apply on top of the scope.
+  const normalizedSearch = normalizeWord(search);
+  const visibleWords = scopeWords.filter((w) => {
+    if (filter !== "all" && w.status !== filter) return false;
+    if (
+      normalizedSearch &&
+      !normalizeWord(w.original).includes(normalizedSearch)
+    )
+      return false;
+    return true;
+  });
+
+  const hasItems = words.length > 0 || allWords.length > 0;
+  const hasSearch = normalizedSearch.length > 0;
   const showEmptyMessage = hasItems && visibleWords.length === 0;
 
   return (
@@ -54,12 +86,16 @@ export default function WordsList({
             Saved Vocabulary
           </h2>
           <p className="text-xs font-mono text-stone-500 mt-1">
-            Words in this chapter that you have tagged
+            {scope === "all"
+              ? "Your full vocabulary for this language"
+              : "Words in this chapter that you have tagged"}
           </p>
         </div>
         <span className="px-2.5 py-1 rounded-xs text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200">
-          {filteredCount} {filteredCount === 1 ? "word" : "words"}
-          {hasItems && filter !== "all" ? ` of  ${words.length}` : ""}
+          {visibleWords.length} {visibleWords.length === 1 ? "word" : "words"}
+          {visibleWords.length !== scopeWords.length
+            ? ` of  ${scopeWords.length}`
+            : ""}
         </span>
       </div>
 
@@ -72,6 +108,36 @@ export default function WordsList({
         <span className="font-bold text-amber-800">{stats.toLearn}</span> to learn /{" "}
         <span className="font-bold text-stone-400">{stats.newWords}</span> new
       </p>
+
+      {/* Scope toggle ("This Chapter" / "All Words") + search bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono self-start">
+          {SCOPES.map((s) => (
+            <button
+              key={s.value}
+              onClick={() => setScope(s.value)}
+              className={`px-2.5 py-1 rounded-xs transition-all ${
+                scope === s.value
+                  ? "bg-slate-900 text-white font-bold shadow-2xs"
+                  : "text-stone-500 hover:text-black"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <div className="relative sm:ml-auto sm:w-56">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-stone-400 pointer-events-none" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search words…"
+            aria-label="Search saved words"
+            className="w-full pl-8 pr-2.5 py-1.5 rounded-xs border border-stone-200 bg-white text-xs font-mono text-slate-900 placeholder:text-stone-400 focus:outline-none focus:border-amber-300 focus:ring-1 focus:ring-amber-200"
+          />
+        </div>
+      </div>
 
       {/* Filter Tabs */}
       <div className="flex items-center bg-stone-100 p-1 rounded-xs border border-stone-200 text-xs font-mono self-start">
@@ -103,9 +169,13 @@ export default function WordsList({
       ) : showEmptyMessage ? (
         <div className="py-12 text-center border border-dashed border-stone-200 rounded-xs">
           <p className="font-serif text-stone-500 text-sm">
-            {filter === "known"
-              ? "No known words yet."
-              : "No words to learn yet."}
+            {hasSearch
+              ? "No words match your search."
+              : scope === "chapter" && filter === "all"
+                ? "No words saved in this chapter yet."
+                : filter === "known"
+                  ? "No known words yet."
+                  : "No words to learn yet."}
           </p>
         </div>
       ) : (

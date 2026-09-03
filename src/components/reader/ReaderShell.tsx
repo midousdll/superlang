@@ -150,6 +150,13 @@ export default function ReaderShell({
     [displayVocabulary, book.sourceLanguage, chapterWordSet]
   );
 
+  // The FULL saved list for this book's language — no chapter filter. Lets
+  // the vocabulary list offer an "All Words" scope across chapters.
+  const bookAllWords = useMemo(
+    () => displayVocabulary.filter((w) => w.language === book.sourceLanguage),
+    [displayVocabulary, book.sourceLanguage]
+  );
+
   // Chapter progress: total / known / to-learn / new.
   const stats = useMemo(
     () => computeChapterStats(chapterWords, displayVocabulary, book.sourceLanguage),
@@ -232,6 +239,7 @@ export default function ReaderShell({
             sourceLanguage={book.sourceLanguage}
             targetLanguage={targetLanguage}
             words={bookWords}
+            allWords={bookAllWords}
             stats={stats}
             onRemoveWord={handleRemoveWord}
             onSaveWord={handleSaveWord}
